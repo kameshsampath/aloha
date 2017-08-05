@@ -16,139 +16,162 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.redhat.developers.msa.aloha</groupId>
-	<artifactId>aloha</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+  <groupId>com.redhat.developers.msa.aloha</groupId>
+  <artifactId>aloha</artifactId>
+  <version>0.0.1</version>
+  <packaging>jar</packaging>
 
-	<name>aloha</name>
-	<description>Demo project for Vert.x</description>
+  <name>aloha</name>
+  <description>Demo project for Vert.x</description>
 
-	<properties>
-		<!-- Explicitly declaring the source encoding eliminates the following
-			message: -->
-		<!-- [WARNING] Using platform encoding (UTF-8 actually) to copy filtered
-			resources, i.e. build is platform dependent! -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.tagret>1.8</maven.compiler.tagret>
 
-		<java.main.class>io.vertx.core.Launcher</java.main.class>
-		<vertx.main.verticle>com.redhat.developers.msa.aloha.AlohaVerticle</vertx.main.verticle>
+    <vertx.verticle>com.redhat.developers.msa.aloha.AlohaVerticle</vertx.verticle>
 
-		<!-- maven-compiler-plugin -->
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+    <!-- maven-compiler-plugin -->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
-		<!-- other plugin versions -->
-		<openfeign.version>9.4.0</openfeign.version>
-		<version.opentracing>0.22.0</version.opentracing>
-		<openfeign.opentracing.version>0.0.3</openfeign.opentracing.version>
-		<vertx.version>3.3.3</vertx.version>
-		<hystrix.version>1.5.1</hystrix.version>
-		<version.exec.plugin>1.4.0</version.exec.plugin>
-		<version.jaeger>0.19.0</version.jaeger>
-	</properties>
+    <!-- other plugin versions -->
+    <openfeign.version>9.4.0</openfeign.version>
+    <version.opentracing>0.22.0</version.opentracing>
+    <openfeign.opentracing.version>0.0.3</openfeign.opentracing.version>
+    <vertx.version>3.3.3</vertx.version>
+    <hystrix.version>1.5.1</hystrix.version>
+    <version.exec.plugin>1.4.0</version.exec.plugin>
+    <version.jaeger>0.19.0</version.jaeger>
 
-	<dependencies>
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-core</artifactId>
-			<version>${vertx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-web</artifactId>
-			<version>${vertx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.vertx</groupId>
-			<artifactId>vertx-auth-jwt</artifactId>
-			<version>${vertx.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-		</dependency>
+    <!-- maven plugins -->
+    <vertx-maven-plugin.version>1.0.7</vertx-maven-plugin.version>
+    <fabric8-maven-plugin.version>3.5.22</fabric8-maven-plugin.version>
 
-		<!-- Feign -->
-		<dependency>
-			<groupId>io.github.openfeign.opentracing</groupId>
-			<artifactId>feign-hystrix-opentracing</artifactId>
-			<version>${openfeign.opentracing.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.github.openfeign</groupId>
-			<artifactId>feign-httpclient</artifactId>
-			<version>${openfeign.version}</version>
-		</dependency>
+    <!-- The docker image name -->
+    <fabric8.generator.name>${project.artifactId}:${project.version}</fabric8.generator.name>
 
-		<!-- Vertx Hystrix Stream -->
-		<dependency>
-			<groupId>com.github.kennedyoliveira</groupId>
-			<artifactId>hystrix-vertx-metrics-stream</artifactId>
-			<version>${hystrix.version}</version>
-		</dependency>
+  </properties>
 
-		<!-- OpenTracing -->
-		<dependency>
-			<groupId>io.opentracing</groupId>
-			<artifactId>opentracing-noop</artifactId>
-			<version>${version.opentracing}</version>
-		</dependency>
+  <dependencies>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>${vertx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web</artifactId>
+      <version>${vertx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-auth-jwt</artifactId>
+      <version>${vertx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
 
-		<!-- OpenTracing implementation - Jaeger -->
-		<dependency>
-			<groupId>com.uber.jaeger</groupId>
-			<artifactId>jaeger-core</artifactId>
-			<version>${version.jaeger}</version>
-		</dependency>
-	</dependencies>
+    <!-- Feign -->
+    <dependency>
+      <groupId>io.github.openfeign.opentracing</groupId>
+      <artifactId>feign-hystrix-opentracing</artifactId>
+      <version>${openfeign.opentracing.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.openfeign</groupId>
+      <artifactId>feign-httpclient</artifactId>
+      <version>${openfeign.version}</version>
+    </dependency>
 
-	<build>
-		<finalName>aloha</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>${version.exec.plugin}</version>
-				<configuration>
-					<mainClass>${java.main.class}</mainClass>
-					<arguments>
-						<argument>run</argument>
-						<argument>${vertx.main.verticle}</argument>
-					</arguments>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.4.3</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<manifestEntries>
-										<Main-Class>${java.main.class}</Main-Class>
-										<Main-Verticle>${vertx.main.verticle}</Main-Verticle>
-									</manifestEntries>
-								</transformer>
-							</transformers>
-							<outputFile>${project.build.directory}/${project.artifactId}-fat.jar
-							</outputFile>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <!-- Vertx Hystrix Stream -->
+    <dependency>
+      <groupId>com.github.kennedyoliveira</groupId>
+      <artifactId>hystrix-vertx-metrics-stream</artifactId>
+      <version>${hystrix.version}</version>
+    </dependency>
+
+    <!-- OpenTracing -->
+    <dependency>
+      <groupId>io.opentracing</groupId>
+      <artifactId>opentracing-noop</artifactId>
+      <version>${version.opentracing}</version>
+    </dependency>
+
+    <!-- OpenTracing implementation - Jaeger -->
+    <dependency>
+      <groupId>com.uber.jaeger</groupId>
+      <artifactId>jaeger-core</artifactId>
+      <version>${version.jaeger}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>aloha</finalName>
+    <plugins>
+      <!--vert.x maven plugin -->
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>vertx-maven-plugin</artifactId>
+        <version>${vertx-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>vmp</id>
+            <goals>
+              <goal>initialize</goal>
+              <goal>package</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <redeploy>true</redeploy>
+        </configuration>
+      </plugin>
+
+      <!-- fabric8 maven plugin -->
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>fabric8-maven-plugin</artifactId>
+        <version>${fabric8-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>istioctl</executable>
+          <workingDirectory>${basedir}/src/istio</workingDirectory>
+          <arguments>
+            <argument>kube-inject</argument>
+            <argument>-f</argument>
+            <argument>aloha.yaml</argument>
+            <argument>-o</argument>
+            <argument>istio-aloha.yaml</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

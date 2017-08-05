@@ -18,8 +18,8 @@ package com.redhat.developers.msa.aloha;
 
 import feign.RequestLine;
 
-public interface BonjourService {
+public interface OlaService {
 
-	@RequestLine("GET /api/bonjour")
-	public String bonjour();
+	@RequestLine("GET /api/ola")
+	public String ola();
 }
